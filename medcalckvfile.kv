@@ -1,0 +1,100 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+WindowManager:
+	transition: NoTransition() # no transitions between screens 
+	HomeScreen: 
+	supplyScreen: 
+
+#----------------------homescreen with buttons for all the different problem types------------------------------------------------- 
+<HomeScreen>: 
+	name: "home" #id for the screen name so other buttons can switch around 
+	FloatLayout: 
+		Label: 
+			text: "Please Select Problem Type" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		Button: 
+			text: "Supply per 1mL"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.88}
+			on_release: app.root.current = "supply"
+		Button: 
+			text: "IV Push"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.78}
+			on_release: app.root.current = "supply"
+		Button: 
+			text: "IV Drip"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.68}
+			on_release: app.root.current = "supply"
+		Button: 
+			text: "Dopamine"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.58}
+			on_release: app.root.current = "supply"
+		Button: 
+			text: "Infusion"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.48}
+			on_release: app.root.current = "supply"
+		Button: 
+			text: "Conversion"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.38}
+			on_release: app.root.current = "supply"
+		Button: 
+			text: "Extra Formulas"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.28}
+			on_release: app.root.current = "supply"
+		Button: 
+			text: "Settings"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.18}
+			on_release: app.root.current = "supply"	
+#-----------------Supply problem--------------------------------------------------------
+<supplyScreen>: 
+	name: "supply" 
+	FloatLayout:
+		Label: 
+			text: "Supply per 1mL" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		Label: 
+			text: "Enter Milligrams\n                    (Mg):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		TextInput:
+			id: entrMgs
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		Label: 
+			text: "Enter Milliliters\n                   (Ml):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		TextInput:
+			id: entrMls
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		Label: 
+			text: "                 Answer \n        (Mg per 1mL):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		TextInput:
+			id: entrAnswer
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+			disabled: True
+		Button: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.67}
+			on_press: root.supplyFx(entrMgs.text, entrMls.text) #calling the supply function for calculations 
+		Button: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.67}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearSupply()
