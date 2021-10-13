@@ -1,8 +1,4 @@
-'''
-Created on Jun 29, 2021
 
-@author: Silvermoon
-'''
 import kivy #importing kivy and various tools needed 
 from kivy.app import App
 from kivy.uix.label import Label 
