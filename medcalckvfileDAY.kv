@@ -1,0 +1,670 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+#: import builder kivy.lang.Builder
+#:import Factory kivy.factory.Factory  
+#for importing a subclass of a subclass 
+ 
+WindowManager:
+	transition: NoTransition() # no transitions between screens 
+	HomeScreen: 
+	supplyScreen: 
+	ivpScreen:
+	ivdripScreen: 
+	dopamineScreen:
+	infusionScreen:
+	conversionScreen:
+	extraScreen:
+	o2Screen:
+	parklandScreen: 
+	settingsScreen: 
+	
+#---------------------Creating various subClasses for button Colors----------------------------------------------------------------
+<ButtonDay@Button>:
+	background_color:(0.737,0.737,0.737,1)
+	color:(0,0,0,1)
+	background_normal:''
+	border:(5,5,5,5)
+	
+<LabelDay@Label>:
+	color:0,0,0,1
+	
+<cursorTextInput@TextInput>:
+	cursor_color:0,0,0,1
+
+<SpinnerDay@Spinner>:
+	background_color:(0.737,0.737,0.737,1)
+	color:(0,0,0,1)
+		
+<SpinnerOptionDay@SpinnerOption>:
+	color: 0,0,0,1
+	background_color:[0.737,0.737,0.737,1]
+
+#----------------------homescreen with buttons for all the different problem types------------------------------------------------- 
+<HomeScreen>: 
+	name: "home" #id for the screen name so other buttons can switch around 
+	FloatLayout: 
+		LabelDay: 
+			text: "Please Select Problem Type" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		ButtonDay: 
+			text: "Supply per 1mL"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.93}
+			on_release: app.root.current = "supply"
+		ButtonDay: 
+			text: "IV Push"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.78}
+			on_release: app.root.current = "ivp"
+		ButtonDay: 
+			text: "IV Drip"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.68}
+			on_release: app.root.current = "ivd"
+		ButtonDay: 
+			text: "Dopamine"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.58}
+			on_release: app.root.current = "dopa"
+		ButtonDay: 
+			text: "Infusion"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.48}
+			on_release: app.root.current = "infus"
+		ButtonDay: 
+			text: "Conversion"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.38}
+			on_release: 
+				app.root.current = "conversion"	
+		ButtonDay: 
+			text: "Extra Formulas"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.28}
+			on_release: app.root.current = "extra"
+		ButtonDay: 
+			text: "Settings"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.32, 'top':0.18}
+			on_release: app.open_settings() 	
+#-----------------Supply problem--------------------------------------------------------
+<supplyScreen>: 
+	name: "supply" 
+	FloatLayout:
+		LabelDay: 
+			text: "Supply per 1mL" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		LabelDay: 
+			text: "Enter Milligrams\n                   (Mg):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrMgs
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		LabelDay: 
+			text: "Enter Milliliters\n                   (Ml):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrMls
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		LabelDay: 
+			text: "                 Answer \n       (Mg per 1mL):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrAnswer
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		ButtonDay: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.67}
+			on_press: root.supplyFx(entrMgs.text, entrMls.text) #calling the supply function for calculations 
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.67}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearSupply() 
+		ButtonDay: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.47}
+			on_press: 
+				root.current = root.clearSupply()  
+#-----------------IVP problem--------------------------------------------------------
+<ivpScreen>
+	name: "ivp" #id for the screen 
+	FloatLayout:
+		LabelDay: 
+			text: "IVP Problem" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		LabelDay: 
+			text: "Enter Dose (Mg):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrIvpMgs
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		LabelDay: 
+			text: "Supply per 1mL\n     (Mg/1mL):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrIvpMls
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		LabelDay: 
+			text: "mLs to Draw:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		TextInput:
+			id: entrIvpAnswer
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		ButtonDay: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.67}
+			on_press: root.ivpFx() #calling the supply function for calculations 
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.67}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearIvp()
+		ButtonDay: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.57}
+			on_press: 
+				root.current = root.clearIvp()   
+#-----------------IVDrip problem--------------------------------------------------------
+<ivdripScreen>
+	name: "ivd" #id for the screen 
+	FloatLayout:
+		LabelDay: 
+			text: "IV Drip Problem" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		LabelDay: 
+			text: "Total Amt to Give\n          (mg/min)" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrIvdMgs
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		LabelDay: 
+			text: "          Dropset:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrIvdDrop
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		LabelDay: 
+			text: "Concentration" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrIvdConc
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+		LabelDay:
+			text: "Drops per Minute \n         (gtts/min):"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: entrIvdAns			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.49, 'top':0.68}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		ButtonDay: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.61}
+			on_press: root.ivdFx() #calling the supply function for calculations 
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.61}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearIvd()
+		ButtonDay: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.51}
+			on_press: 
+				root.current = root.clearIvd()   
+#-----------------Dopamine problem--------------------------------------------------------
+<dopamineScreen>
+	name: "dopa" #id for the screen 
+	FloatLayout:
+		LabelDay: 
+			text: "Dopamine Problem" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		LabelDay: 
+			text: "Dose (mcg/min):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrDopaMcg
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		LabelDay: 
+			text: "    Weight in Kg:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrDopaKg
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		LabelDay: 
+			text: "         Dropset:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrIvdDrop
+			text: "60"
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+			disabled: True
+		LabelDay:
+			text: "Concentration \n          (mcg/mL):"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: entrDopaConc			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.49, 'top':0.68}
+		LabelDay:	
+			text: "Drops per Minute\n          (gtts/min):"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.64}
+		cursorTextInput:
+			id: entrDopaAns			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.49, 'top':0.62}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		ButtonDay: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.55}
+			on_press: root.dopaFx() #calling the supply function for calculations 
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.55}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearDopa()
+		ButtonDay: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.45}
+			on_press: 
+				root.current = root.clearDopa()   
+#-----------------Infusion problem--------------------------------------------------------
+<infusionScreen>
+	name: "infus" #id for the screen 
+	FloatLayout:
+		LabelDay: 
+			text: "Infusion Problem" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		LabelDay: 
+			text: "    Volume to be \n     infused (mL)" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrInfVol
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		LabelDay: 
+			text: "        Dropset:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrInfDrop
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		LabelDay: 
+			text: "Duration in Minutes" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrInfMin
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+		LabelDay:
+			text: "Drops per Minute \n           (gtts/min):"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: entrInfAns			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.49, 'top':0.68}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		ButtonDay: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.61}
+			on_press: root.infusionFx() #calling the supply function for calculations 
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.61}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearInfusion()
+		ButtonDay: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.51}
+			on_press: 
+				root.current = root.clearInfusion()   
+				
+#-----------------Conversion problem--------------------------------------------------------
+<conversionScreen>
+	name: "conversion" #id for the screen 
+	FloatLayout:
+		LabelDay: 
+			text: "Conversion" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		LabelDay: 
+			text: "Enter Unit Amt:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.05, 'top':0.88}
+		cursorTextInput:
+			id: entrConvUnit
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.39, 'top':0.86}
+		Spinner:
+			id: firstSpinDrop
+			text:"Select Unit"
+			size_hint: 0.3, 0.08
+			pos_hint:{"x":0.69, 'top':0.87}
+			values: ["mg","g","mcg","ibs","kg"]
+			on_text: root.convClickedFirst(firstSpinDrop.text)
+		LabelDay: 
+			text: "Convert To:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.05, 'top':0.82}
+		Spinner: 
+			id: secondSpinDrop
+			text: "Select Unit"
+			size_hint: 0.3, 0.078
+			pos_hint:{"x":0.39, 'top':0.8}
+			values: ["mg","g","mcg","ibs","kg"]
+			on_text: root.convClickedSecond(secondSpinDrop.text)
+		LabelDay: 
+			text: "Answer:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.05, 'top':0.74}
+		TextInput:
+			id: entrConvAns
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.39, 'top':0.72}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		ButtonDay: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.65}
+			on_press: root.convertFx() #calling the supply function for calculations 
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.65}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearConversion()
+		ButtonDay: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.55}
+			on_press: 
+				root.current = root.clearConversion()   
+#-----------------Extras problem--------------------------------------------------------
+<extraScreen>
+	name: "extra"
+	FloatLayout: 
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.67}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				
+		ButtonDay: 
+			text: "Parkland Burn Formula"
+			size_hint: 0.5, 0.1
+			pos_hint: {"x": 0.1, 'top':0.90}
+			on_press: 
+				app.root.current = "parkland" #giving the button two different functions 
+				
+		ButtonDay: 
+			text: "Oxygen Tank Calculation"
+			size_hint: 0.5, 0.1
+			pos_hint: {"x": 0.1, 'top':0.80}
+			on_press: 
+				app.root.current = "o2Tank" #giving the button two different functions 
+#-----------------Parkland Screen --------------------------------------------------------
+<parklandScreen>
+	name: "parkland"
+	FloatLayout: 
+		LabelDay: 
+			text: "Parkland Burn Formula" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		LabelDay: 
+			text: "                    ML" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: parkMl
+			text: "4"
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.86}
+			disabled: True
+		LabelDay: 
+			text: "                TBSA(%)" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: parkTBSA
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.80}
+		LabelDay: 
+			text: "          Weight (KG)" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: parkKg
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.74}
+		LabelDay: 
+			text: "          Drop Factor" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: parkDropFact
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.68}
+		LabelDay:
+			text: "(First 8HRS) gtts/min"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.64}
+		cursorTextInput:
+			id: parkFirst8			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.52, 'top':0.62}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		LabelDay:
+			text: "(NEXT 16HRS) gtts/min"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.58}
+		cursorTextInput:
+			id: parkNext16			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.52, 'top':0.56}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		LabelDay:
+			text: "Total mL over 24HRS"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.52}
+		cursorTextInput:
+			id: parkTotal			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.52, 'top':0.50}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		ButtonDay: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.42}
+			on_press: root.parklandFx() #calling the supply function for calculations 
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.42}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearPark()
+		ButtonDay: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.32}
+			on_press: 
+				root.current = root.clearPark()   
+				
+<o2Screen>
+	name: "o2Tank"
+	FloatLayout: 
+		LabelDay: 
+			text: "Oxygen Remaining Calculation" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		LabelDay: 
+			text: "Cylinder Factor" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		Spinner:
+			id: oSpinnDrop
+			text:"Select Tank"
+			size_hint: 0.32, 0.08
+			pos_hint:{"x":0.51, 'top':0.89}
+			values: ["D Cylinder","Jumbo D","E Cylinder","M Cylinder","H Cylinder"]
+			on_text: root.oxygenClickedSecond(oSpinnDrop.text)
+		LabelDay: 
+			text: "Current PSI in Tank" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrPSIo
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.80}
+		LabelDay: 
+			text: "liters per minute LPM:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrLpmo
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.74}
+		LabelDay: 
+			text: "Minutes Remaining"  
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		TextInput:
+			id: entrAnso
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.68}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True 
+		LabelDay: 
+			text: "*Calculated with a safe\n residual pressure of 200 PSI"  
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.35, 'top':0.62}
+		
+		ButtonDay: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.52}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearO2() 
+		ButtonDay: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.52}
+			on_press: 
+				root.o2TankFx() #giving the button two different functions
+		ButtonDay: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.42}
+			on_press: 
+				root.current = root.clearO2()   
+#-----------------Settings--------------------------------------------------------
+<settingsScreen>
+	name: "settings"
+	FloatLayout: 
+		LabelDay: 
+			text: "Settings" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+
+		
+#-----------------Settings--------------------------------------------------------
