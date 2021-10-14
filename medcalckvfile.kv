@@ -1,100 +1,708 @@
 #: import NoTransition kivy.uix.screenmanager.NoTransition
-
+#: import builder kivy.lang.Builder
+#:import Factory kivy.factory.Factory  
+#for importing a subclass of a subclass 
 WindowManager:
 	transition: NoTransition() # no transitions between screens 
 	HomeScreen: 
 	supplyScreen: 
+	ivpScreen:
+	ivdripScreen: 
+	dopamineScreen:
+	infusionScreen:
+	conversionScreen:
+	extraScreen:
+	o2Screen:
+	parklandScreen: 
+	settingsScreen: 
+#---------------------Creating various subClasses for button Colors----------------------------------------------------------------
+<NightButton@Button>:
+	color:.9,.9,.9,1
+	background_color:.8,.8,.8,1
+	
+<NightLabel@Label>:
+	color:.9,.9,.9,1
+	
+<cursorTextInput@TextInput>:
+	cursor_color:0,0,0,1
+
+<NightSpinner@Spinner>:
+	color:.9,.9,.9,1
+	background_color:.8,.8,.8,1
+		
+<NightSpinnerOption@SpinnerOption>:
+	color:.9,.9,.9,1
+	background_color:[.8,.8,.8,1]
 
 #----------------------homescreen with buttons for all the different problem types------------------------------------------------- 
 <HomeScreen>: 
 	name: "home" #id for the screen name so other buttons can switch around 
 	FloatLayout: 
-		Label: 
+		NightLabel: 
 			text: "Please Select Problem Type" 
 			size_hint: 0.3, 0.1
 			pos_hint: {"x": 0.362, 'top':0.98}
-		Button: 
+		NightButton: 
+			id:b1
 			text: "Supply per 1mL"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.32, 'top':0.88}
 			on_release: app.root.current = "supply"
-		Button: 
+		NightButton: 
 			text: "IV Push"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.32, 'top':0.78}
-			on_release: app.root.current = "supply"
-		Button: 
+			on_release: app.root.current = "ivp"
+		NightButton: 
 			text: "IV Drip"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.32, 'top':0.68}
-			on_release: app.root.current = "supply"
-		Button: 
+			on_release: app.root.current = "ivd"
+		NightButton: 
 			text: "Dopamine"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.32, 'top':0.58}
-			on_release: app.root.current = "supply"
-		Button: 
+			on_release: app.root.current = "dopa"
+		NightButton: 
 			text: "Infusion"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.32, 'top':0.48}
-			on_release: app.root.current = "supply"
-		Button: 
+			on_release: app.root.current = "infus"
+		NightButton: 
 			text: "Conversion"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.32, 'top':0.38}
-			on_release: app.root.current = "supply"
-		Button: 
+			on_release: 
+				app.root.current = "conversion"	
+		NightButton: 
 			text: "Extra Formulas"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.32, 'top':0.28}
-			on_release: app.root.current = "supply"
-		Button: 
+			on_release: app.root.current = "extra"
+		NightButton: 
 			text: "Settings"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.32, 'top':0.18}
-			on_release: app.root.current = "supply"	
+			on_release: app.open_settings() 
+			#app.root.current="settings" 	
+			
 #-----------------Supply problem--------------------------------------------------------
 <supplyScreen>: 
 	name: "supply" 
 	FloatLayout:
-		Label: 
+		NightLabel: 
+			id: l1
 			text: "Supply per 1mL" 
 			size_hint: 0.3, 0.1
 			pos_hint: {"x": 0.362, 'top':0.98}
-		Label: 
-			text: "Enter Milligrams\n                    (Mg):" 
+		NightLabel: 
+			id: l2
+			text: "Enter Milligrams\n                   (Mg):" 
 			size_hint: 0.3, 0.1
 			pos_hint: {"x": 0.15, 'top':0.88}
-		TextInput:
+		cursorTextInput:
 			id: entrMgs
 			size_hint: 0.3, 0.06
 			pos_hint: {"x": 0.49, 'top':0.86}
-		Label: 
+			input_type: 'number' #testing to see if this pulls up the number only keyboard 
+		NightLabel: 
 			text: "Enter Milliliters\n                   (Ml):" 
 			size_hint: 0.3, 0.1
 			pos_hint: {"x": 0.15, 'top':0.82}
-		TextInput:
+		cursorTextInput:
 			id: entrMls
 			size_hint: 0.3, 0.06
 			pos_hint: {"x": 0.49, 'top':0.80}
-		Label: 
-			text: "                 Answer \n        (Mg per 1mL):" 
+		NightLabel: 
+			text: "                 Answer \n       (Mg per 1mL):" 
 			size_hint: 0.3, 0.1
 			pos_hint: {"x": 0.15, 'top':0.76}
-		TextInput:
+		cursorTextInput:
 			id: entrAnswer
 			size_hint: 0.3, 0.06
 			pos_hint: {"x": 0.49, 'top':0.74}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
 			disabled: True
-		Button: 
+		NightButton: 
 			text: "Calculate"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.5, 'top':0.67}
 			on_press: root.supplyFx(entrMgs.text, entrMls.text) #calling the supply function for calculations 
-		Button: 
+		NightButton: 
 			text: "Return Home"
 			size_hint: 0.4, 0.1
 			pos_hint: {"x": 0.1, 'top':0.67}
 			on_press: 
 				app.root.current = "home" #giving the button two different functions 
-				root.clearSupply()
+				root.clearSupply() 
+		NightButton: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.57}
+			on_press: 
+				root.current = root.clearSupply()  
+#-----------------IVP problem--------------------------------------------------------
+<ivpScreen>
+	name: "ivp" #id for the screen 
+	FloatLayout:
+		NightLabel: 
+			text: "IVP Problem" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		NightLabel: 
+			text: "Enter Dose (Mg):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrIvpMgs
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		NightLabel: 
+			text: "Supply per 1mL\n     (Mg/1mL):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrIvpMls
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		NightLabel: 
+			text: "mLs to Draw:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrIvpAnswer
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		NightButton: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.67}
+			on_press: root.ivpFx() #calling the supply function for calculations 
+		NightButton: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.67}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearIvp()
+		NightButton: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.57}
+			on_press: 
+				root.current = root.clearIvp()   
+#-----------------IVDrip problem--------------------------------------------------------
+<ivdripScreen>
+	name: "ivd" #id for the screen 
+	FloatLayout:
+		NightLabel: 
+			id:l4
+			text: "IV Drip Problem" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		NightLabel: 
+			text: "Total Amt to Give\n          (mg/min)" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrIvdMgs
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		NightLabel: 
+			text: "          Dropset:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrIvdDrop
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		NightLabel: 
+			text: "Concentration" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrIvdConc
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+		NightLabel:
+			text: "Drops per Minute \n         (gtts/min):"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: entrIvdAns			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.49, 'top':0.68}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		NightButton: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.61}
+			on_press: root.ivdFx() #calling the supply function for calculations 
+		NightButton: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.61}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearIvd()
+		NightButton: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.51}
+			on_press: 
+				root.current = root.clearIvd()   
+#-----------------Dopamine problem--------------------------------------------------------
+<dopamineScreen>
+	name: "dopa" #id for the screen 
+	FloatLayout:
+		NightLabel: 
+			text: "Dopamine Problem" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		NightLabel: 
+			text: "Dose (mcg/min):" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrDopaMcg
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		NightLabel: 
+			text: "    Weight in Kg:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrDopaKg
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		NightLabel: 
+			text: "         Dropset:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrIvdDrop
+			text: "60"
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+			disabled: True
+		NightLabel:
+			text: "Concentration \n          (mcg/mL):"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: entrDopaConc			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.49, 'top':0.68}
+		NightLabel:	
+			text: "Drops per Minute\n          (gtts/min):"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.64}
+		cursorTextInput:
+			id: entrDopaAns			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.49, 'top':0.62}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		NightButton: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.55}
+			on_press: root.dopaFx() #calling the supply function for calculations 
+		NightButton: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.55}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearDopa()
+		NightButton: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.45}
+			on_press: 
+				root.current = root.clearDopa()   
+#-----------------Infusion problem--------------------------------------------------------
+<infusionScreen>
+	name: "infus" #id for the screen 
+	FloatLayout:
+		NightLabel: 
+			text: "Infusion Problem" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		NightLabel: 
+			text: "    Volume to be \n     infused (mL)" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: entrInfVol
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.86}
+		NightLabel: 
+			text: "        Dropset:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrInfDrop
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.80}
+		NightLabel: 
+			text: "Duration in Minutes" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrInfMin
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.49, 'top':0.74}
+		NightLabel:
+			text: "Drops per Minute \n           (gtts/min):"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: entrInfAns			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.49, 'top':0.68}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		NightButton: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.61}
+			on_press: root.infusionFx() #calling the supply function for calculations 
+		NightButton: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.61}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearInfusion()
+		NightButton: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.51}
+			on_press: 
+				root.current = root.clearInfusion()   
+				
+#-----------------Conversion problem--------------------------------------------------------
+<conversionScreen>
+	name: "conversion" #id for the screen 
+	FloatLayout:
+		NightLabel: 
+			text: "Conversion" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		NightLabel: 
+			text: "Enter Unit Amt:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.05, 'top':0.88}
+		cursorTextInput:
+			id: entrConvUnit
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.39, 'top':0.86}
+		NightSpinner:
+			id: firstSpinDrop
+			text:"Select Unit"
+			size_hint: 0.3, 0.08
+			pos_hint:{"x":0.69, 'top':0.87}
+			option_cls: Factory.get("NightSpinnerOption")
+			values: ["mg","g","mcg","ibs","kg"]
+			on_text: root.convClickedFirst(firstSpinDrop.text)
+		NightLabel: 
+			text: "Convert To:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.05, 'top':0.82}
+		NightSpinner: 
+			id: secondSpinDrop
+			text: "Select Unit"
+			size_hint: 0.3, 0.078
+			pos_hint:{"x":0.39, 'top':0.8}
+			option_cls: Factory.get("NightSpinnerOption")
+			values: ["mg","g","mcg","ibs","kg"]
+			on_text: root.convClickedSecond(secondSpinDrop.text)
+		NightLabel: 
+			text: "Answer:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.05, 'top':0.74}
+		cursorTextInput:
+			id: entrConvAns
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.39, 'top':0.72}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		NightButton: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.65}
+			on_press: root.convertFx() #calling the supply function for calculations 
+		NightButton: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.65}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearConversion()
+		NightButton: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.55}
+			on_press: 
+				root.current = root.clearConversion()   
+#-----------------Extras problem--------------------------------------------------------
+<extraScreen>
+	name: "extra"
+	FloatLayout: 
+		NightButton: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.67}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				
+		NightButton: 
+			text: "Parkland Burn Formula"
+			size_hint: 0.5, 0.1
+			pos_hint: {"x": 0.1, 'top':0.90}
+			on_press: 
+				app.root.current = "parkland" #giving the button two different functions 
+				
+		NightButton: 
+			text: "Oxygen Tank Calculation"
+			size_hint: 0.5, 0.1
+			pos_hint: {"x": 0.1, 'top':0.80}
+			on_press: 
+				app.root.current = "o2Tank" #giving the button two different functions 
+#-----------------Parkland Screen --------------------------------------------------------
+<parklandScreen>
+	name: "parkland"
+	FloatLayout: 
+		NightLabel: 
+			text: "Parkland Burn Formula" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		NightLabel: 
+			text: "                    ML" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		cursorTextInput:
+			id: parkMl
+			text: "4"
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.86}
+			disabled: True
+		NightLabel: 
+			text: "                TBSA(%)" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: parkTBSA
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.80}
+		NightLabel: 
+			text: "          Weight (KG)" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: parkKg
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.74}
+		NightLabel: 
+			text: "          Drop Factor" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: parkDropFact
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.68}
+		NightLabel:
+			text: "(First 8HRS) gtts/min"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.64}
+		cursorTextInput:
+			id: parkFirst8			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.52, 'top':0.62}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		NightLabel:
+			text: "(Next 16HRS) gtts/min"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.58}
+		cursorTextInput:
+			id: parkNext16			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.52, 'top':0.55}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		NightLabel:
+			text: "Total mL over 24HRS"
+			size_hint: 0.3,0.1
+			pos_hint: {"x": 0.15, 'top':0.52}
+		cursorTextInput:
+			id: parkTotal			
+			size_hint: 0.3,0.06
+			pos_hint:{"x": 0.52, 'top':0.48}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True
+		NightButton: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.41}
+			on_press: root.parklandFx() #calling the supply function for calculations 
+		NightButton: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.41}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearPark()
+		NightButton: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.31}
+			on_press: 
+				root.current = root.clearPark()   
+				
+<o2Screen>
+	name: "o2Tank"
+	FloatLayout: 
+		NightLabel: 
+			text: "Oxygen Remaining Calculation" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+		NightLabel: 
+			text: "Cylinder Factor" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.88}
+		NightSpinner:
+			id: oSpinnDrop
+			text:"Select Tank"
+			size_hint: 0.32, 0.08
+			pos_hint:{"x":0.51, 'top':0.89}
+			option_cls: Factory.get("NightSpinnerOption")
+			values: ["D Cylinder","Jumbo D","E Cylinder","M Cylinder","H Cylinder"]
+			on_text: root.oxygenClickedSecond(oSpinnDrop.text)
+		NightLabel: 
+			text: "Current PSI in Tank" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.82}
+		cursorTextInput:
+			id: entrPSIo
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.80}
+		NightLabel: 
+			text: "liters per minute LPM:" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.76}
+		cursorTextInput:
+			id: entrLpmo
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.74}
+		NightLabel: 
+			text: "Minutes Remaining"  
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.15, 'top':0.70}
+		cursorTextInput:
+			id: entrAnso
+			size_hint: 0.3, 0.06
+			pos_hint: {"x": 0.52, 'top':0.68}
+			background_disabled_normal:'' 
+			background_color:(0.91,0.91,0.031,0.9)
+			disabled_foreground_color:(0,0,0,1)
+			font_size:20
+			disabled: True 
+			
+		NightLabel: 
+			text: "*Calculated with a safe\n residual pressure of 200 PSI"  
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.35, 'top':0.62}
+		
+		NightButton: 
+			text: "Return Home"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.1, 'top':0.52}
+			on_press: 
+				app.root.current = "home" #giving the button two different functions 
+				root.clearO2() 
+		NightButton: 
+			text: "Calculate"
+			size_hint: 0.4, 0.1
+			pos_hint: {"x": 0.5, 'top':0.52}
+			on_press: 
+				root.o2TankFx() #giving the button two different functions
+		NightButton: 
+			text: "Clear All"
+			size_hint: 0.8, 0.1
+			pos_hint: {"x": 0.1, 'top':0.42}
+			on_press: 
+				root.current = root.clearO2()   
+#-----------------Settings--------------------------------------------------------
+<settingsScreen>
+	name: "settings"
+	FloatLayout: 
+		NightLabel: 
+			text: "Settings" 
+			size_hint: 0.3, 0.1
+			pos_hint: {"x": 0.362, 'top':0.98}
+			
+	NightLabel:
+		text: "Night Mode"
+		size_hint: 0.3, 0.1
+		pos_hint: {"x":0.15,'top':0.88}
+		
+	NightLabel: 
+		text: "Day Mode"
+		size_hint: 0.3,0.1
+		pos_hint: {"x": 0.14, 'top':0.78}
+	CheckBox: 
+		id: chkNight
+		group:1 
+		size_hint:(0.3,0.1) 
+		pos_hint:{'x':0.35, 'y':0.78}
+		color:(1,1,1,1)
+	CheckBox: 
+		id: chkDay
+		group:1 
+		size_hint:(0.3,0.1) 
+		pos_hint:{'x':0.35, 'y':0.68}
+		color:(1,1,1,1)
+		
+	NightButton: 
+		text: "Switch Modes"
+		size_hint: 0.8, 0.1
+		pos_hint: {"x": 0.1, 'top':0.42}
+		on_press: 
+			root.current = root.switchModes()
+
+		
+#-----------------Settings--------------------------------------------------------
+		
+		 
